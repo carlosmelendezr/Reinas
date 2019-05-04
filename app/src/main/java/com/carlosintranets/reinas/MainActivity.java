@@ -8,8 +8,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Tablero tab = new Tablero();
-        ((Tablero) tab).setCeldaEstado(Tablero.CELDA_REINA,3,3);
+        Tablero tab;
+        ProblemaReinas p = new ProblemaReinas();
+
+        tab = p.BuscarSolucion();
+
         setContentView(new DibujarTablero(this,tab));
     }
 }

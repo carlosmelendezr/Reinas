@@ -5,6 +5,12 @@ public class Celda {
     private int x;
     private int y;
 
+    public Celda() {
+        this.x = -1;
+        this.y = -1;
+
+    }
+
     public Celda(String nombre, int x, int y) {
         this.nombre = nombre;
         this.x = x;

@@ -8,18 +8,20 @@ public class Tablero {
     public static final int CELDA_REINA = 2;
     private final String[] letras = {"a","b","c","d","e","f","g","h"};
     private ArrayList<Celda> Celdas;
-    private int celdasDispoibles;
+    private int celdasDisponibles;
 
     private int[][] Espacio;
     private int tamano;
 
-
+    public int getCeldasDisponibles() {
+        return celdasDisponibles;
+    }
 
     public Tablero() {
         tamano = 8;
         Celdas = new ArrayList();
         Espacio = new int[tamano*tamano-1][tamano*tamano-1];
-        celdasDispoibles=tamano*tamano;
+        celdasDisponibles =tamano*tamano;
         crearCeldas();
         Clear();
     }
@@ -32,23 +34,44 @@ public class Tablero {
         if (estado<0 || estado>2) return false;
         if (x<0 || x>tamano-1) return false;
         if (y<0 || y>tamano-1) return false;
-        Espacio[x][y]=estado;
-        if (estado>0) celdasDispoibles--;
+
+        if (Espacio[x][y]==CELDA_LIBRE){
+            Espacio[x][y]=estado;
+            celdasDisponibles--;
+        } else {
+            return false;
+        }
+
         apartaVerHor(x,y);
         apartaDiagonal(x,y);
         return true;
     }
+
+    public Celda proximaDisponible(){
+        Celda celda = new Celda();
+        for(int i=0;i<tamano-1;i++){
+
+            for(int j=0;j<tamano-1;j++){
+                if (Espacio[i][j]==CELDA_LIBRE) {
+                    celda.setX(i);
+                    celda.setY(j);
+                }
+            }
+        }
+        return celda;
+    }
+
     public void apartaVerHor(int posx, int posy) {
         for(int y=0;y<tamano;y++){
             if (Espacio[posx][y]==CELDA_LIBRE) {
                 Espacio[posx][y] = CELDA_OCUPADA;
-                celdasDispoibles--;
+                celdasDisponibles--;
             }
         }
         for(int x=0;x<tamano;x++){
             if (Espacio[x][posy]==CELDA_LIBRE) {
                 Espacio[x][posy] = CELDA_OCUPADA;
-                celdasDispoibles--;
+                celdasDisponibles--;
             }
         }
 
@@ -62,7 +85,7 @@ public class Tablero {
         while (x>=0 && y>=0) {
             if (Espacio[x][y]==CELDA_LIBRE) {
                 Espacio[x][y] = CELDA_OCUPADA;
-                celdasDispoibles--;
+                celdasDisponibles--;
             }
             x--;
             y--;
@@ -73,7 +96,7 @@ public class Tablero {
         while (x>=0 && y<tamano) {
             if (Espacio[x][y]==CELDA_LIBRE) {
                 Espacio[x][y] = CELDA_OCUPADA;
-                celdasDispoibles--;
+                celdasDisponibles--;
             }
             x--;
             y++;
@@ -84,7 +107,7 @@ public class Tablero {
         while (x<tamano && y>=0) {
             if (Espacio[x][y]==CELDA_LIBRE) {
                 Espacio[x][y] = CELDA_OCUPADA;
-                celdasDispoibles--;
+                celdasDisponibles--;
             }
             x++;
             y--;
@@ -94,7 +117,7 @@ public class Tablero {
         while (x<tamano && y<tamano) {
             if (Espacio[x][y]==CELDA_LIBRE) {
                 Espacio[x][y] = CELDA_OCUPADA;
-                celdasDispoibles--;
+                celdasDisponibles--;
             }
             x++;
             y++;
