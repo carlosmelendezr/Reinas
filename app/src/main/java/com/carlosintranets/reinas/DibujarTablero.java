@@ -1,12 +1,16 @@
 package com.carlosintranets.reinas;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
-
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 
 
 public class DibujarTablero  {
@@ -14,12 +18,13 @@ public class DibujarTablero  {
     private ShapeDrawable mMarco;
     private Tablero tablero;
     private Context contexto;
+    private int with;
+    private int height;
 
 
-    public DibujarTablero( Tablero tab) {
+    public DibujarTablero( Context context,Tablero tab) {
+        contexto=context;
 
-        /*super(context);
-        this.contexto=context;*/
         this.tablero=tab;
         //setFocusable(true);
         this.mDrawable = new ShapeDrawable(new RectShape());
@@ -32,25 +37,33 @@ public class DibujarTablero  {
 
 
     public Bitmap Dibujar(){
-        int with = 160;
-        int height = 160;
+        DisplayMetrics d = new DisplayMetrics();
+        ((Activity)contexto).getWindowManager().getDefaultDisplay().getMetrics(d);
+        with=  (d.widthPixels/4);
+        height=  with; //d.heightPixels/2;
+
+        if(with<1 || height<1) return null;
+
+        int boxW = with/9;
+        int boxH = with/9;
+        Log.i("Reinas","W="+with+",H="+height);
 
         Bitmap bitmap = Bitmap.createBitmap(
-                with*8 + 8*8, // Width
-                height*8 + 8*8, // Height
+                with , // Width
+                height , // Height
                 Bitmap.Config.ARGB_8888 // Config
         );
 
         Canvas canvas = new Canvas(bitmap);
-        int y = 15;
+        int y = 2;
 
-        this.mDrawable.setBounds(5, 5, with*8 + 8*8, height*8 + 8*8);
+        this.mDrawable.setBounds(0, 0, with , height );
         this.mDrawable.draw(canvas);
 
 
         int inicia ;
         for(int j=0;j<8;j++) {
-            int x = 15;
+            int x = 2;
 
             if (j%2==0) {
                 inicia = 0;
@@ -72,12 +85,12 @@ public class DibujarTablero  {
                 if (tablero.getCeldaEstado(j,i)==Tablero.CELDA_REINA)
                     this.mDrawable.getPaint().setColor(Color.RED);
 
-                this.mDrawable.setBounds(x, y, x + with, y + height);
+                this.mDrawable.setBounds(x, y, x + boxW, y + boxH);
                 this.mDrawable.draw(canvas);
-                x += with + 5;
+                x += boxW + 5;
 
             }
-            y+= height+5;
+            y+= boxH+5;
 
         }
      return bitmap;
