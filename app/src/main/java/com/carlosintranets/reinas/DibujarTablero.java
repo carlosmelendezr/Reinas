@@ -46,24 +46,23 @@ public class DibujarTablero  {
 
         int boxW = with/9;
         int boxH = with/9;
-        Log.i("Reinas","W="+with+",H="+height);
 
         Bitmap bitmap = Bitmap.createBitmap(
-                with , // Width
-                height , // Height
+                boxW*8+9 , // Width
+                boxW*8+9 , // Height
                 Bitmap.Config.ARGB_8888 // Config
         );
 
         Canvas canvas = new Canvas(bitmap);
-        int y = 2;
+        int y = 1;
 
-        this.mDrawable.setBounds(0, 0, with , height );
+        this.mDrawable.setBounds(0, 0, boxW*8+9 , boxW*8+9 );
         this.mDrawable.draw(canvas);
 
 
         int inicia ;
         for(int j=0;j<8;j++) {
-            int x = 2;
+            int x = 1;
 
             if (j%2==0) {
                 inicia = 0;
@@ -87,10 +86,10 @@ public class DibujarTablero  {
 
                 this.mDrawable.setBounds(x, y, x + boxW, y + boxH);
                 this.mDrawable.draw(canvas);
-                x += boxW + 5;
+                x += boxW + 1;
 
             }
-            y+= boxH+5;
+            y+= boxH+1;
 
         }
      return bitmap;
