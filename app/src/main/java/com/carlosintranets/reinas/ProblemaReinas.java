@@ -8,6 +8,8 @@ public class ProblemaReinas {
     public Tablero tablero;
     public int tamano = 8;
     public int reinas;
+    public int fila;
+    public int col;
     public Random r = new Random();
 
     ProblemaReinas() {
@@ -17,38 +19,35 @@ public class ProblemaReinas {
     public void reiniciarJuego() {
         tablero=new Tablero();
 
-        int x = r.nextInt(tamano);
-        int y = r.nextInt( tamano );
+        int fila = r.nextInt(tamano);
+        col = 0;
+        //int y = r.nextInt( tamano );
         this.reinas=8;
-        tablero.setCeldaEstado(Tablero.CELDA_REINA,x,y);
+        tablero.setCeldaEstado(Tablero.CELDA_REINA,fila,col);
         //Log.i("Reinas ","Reina :"+reinas+" ubicada en x="+x+",y="+y);
         reinas--;
+        col++;
 
     }
 
     public Tablero BuscarSolucion() {
         Log.i("Reinas","Iniciando juego");
-        int x;
-        int y;
+
         reiniciarJuego();
         int iteracion=0;
         Log.i("Reinas ","Falta por ubicar "+reinas);
         while(reinas > 0  && iteracion<10000){
-            x = r.nextInt( tamano);
-            y = r.nextInt( tamano );
-            Celda celda = tablero.proximaDisponible();
-            //x=celda.getX();
-            //y=celda.getY();
-            //Log.i("Reinas ","Proxima celda disponible ubicada en x="+x+",y="+y);
+            fila = r.nextInt( tamano);
 
-
-                if (tablero.setCeldaEstado(Tablero.CELDA_REINA, x, y)) {
+                if (tablero.setCeldaEstado(Tablero.CELDA_REINA, fila, col)) {
                     //Log.i("Reinas ", "Reina :" + reinas + " ubicada en x=" + x + ",y=" + y);
+                    col++;
                     reinas--;
+                    Log.i("Reinas ","col="+col+",reinas="+reinas);
                 }
 
 
-                if ( tablero.getCeldasDisponibles()==0) {
+                if ( col>tamano) {
                     Log.i("Reinas","Reiniciando tablero,iteracion="+iteracion+", Reinas unicadas:"+reinas);
                     reiniciarJuego();
                 }
@@ -56,7 +55,9 @@ public class ProblemaReinas {
 
             iteracion++;
         }
-        if (reinas==0) Log.i("Reinas","Solucion encontrada!!");
+        if (reinas==0){ Log.i("Reinas","Solucion encontrada!!");}
+            else {Log.i("Reinas","Juego terminado sin solucion="+iteracion+"," +
+                " Reinas faltantes:"+reinas+"Celdas disponibles:"+tablero.getCeldasDisponibles());}
         return tablero;
     }
 
