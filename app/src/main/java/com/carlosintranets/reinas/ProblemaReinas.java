@@ -10,6 +10,7 @@ public class ProblemaReinas {
     public int reinas;
     public int fila;
     public int col;
+    public boolean solucion;
     public Random r = new Random();
 
     ProblemaReinas() {
@@ -18,6 +19,7 @@ public class ProblemaReinas {
 
     public void reiniciarJuego() {
         tablero=new Tablero();
+        solucion=false;
 
         int fila = r.nextInt(tamano);
         col = 0;
@@ -55,7 +57,10 @@ public class ProblemaReinas {
 
             iteracion++;
         }
-        if (reinas==0){ Log.i("Reinas","Solucion encontrada!!");}
+        if (reinas==0){
+            Log.i("Reinas","Solucion encontrada!!");
+            solucion=true;
+        }
             else {Log.i("Reinas","Juego terminado sin solucion="+iteracion+"," +
                 " Reinas faltantes:"+reinas+"Celdas disponibles:"+tablero.getCeldasDisponibles());}
         return tablero;
