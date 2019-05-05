@@ -1,5 +1,7 @@
 package com.carlosintranets.reinas;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 public class Tablero {
@@ -49,14 +51,23 @@ public class Tablero {
 
     public Celda proximaDisponible(){
         Celda celda = new Celda();
-        for(int i=0;i<tamano-1;i++){
+        boolean encontrada=false;
+        int i=0;
+        int j=0;
 
-            for(int j=0;j<tamano-1;j++){
+        while(i<tamano && !encontrada ){
+            j=0;
+            while(j<tamano && !encontrada){
+                Log.i("Reinas","Explorando x="+i+",y="+j);
                 if (Espacio[i][j]==CELDA_LIBRE) {
                     celda.setX(i);
                     celda.setY(j);
+                    encontrada=true;
+
                 }
+                j++;
             }
+            i++;
         }
         return celda;
     }
