@@ -1,33 +1,49 @@
 package com.carlosintranets.reinas;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
-import android.view.View;
 
-public class DibujarTablero extends View {
+
+
+public class DibujarTablero  {
     private ShapeDrawable mDrawable;
     private ShapeDrawable mMarco;
     private Tablero tablero;
+    private Context contexto;
 
-    public DibujarTablero(Context context, Tablero tab) {
-        super(context);
+
+    public DibujarTablero( Tablero tab) {
+
+        /*super(context);
+        this.contexto=context;*/
         this.tablero=tab;
-        setFocusable(true);
+        //setFocusable(true);
         this.mDrawable = new ShapeDrawable(new RectShape());
         this.mDrawable.getPaint().setColor(Color.BLACK);
         this.mMarco = new ShapeDrawable(new RectShape());
         this.mMarco.getPaint().setColor(Color.BLACK);
         this.mMarco.getPaint().setStrokeWidth(5);
     }
-    @Override
-    protected void onDraw(Canvas canvas){
 
-        int y = 15;
+
+
+    public Bitmap Dibujar(){
         int with = 160;
         int height = 160;
+
+        Bitmap bitmap = Bitmap.createBitmap(
+                with*8 + 8*8, // Width
+                height*8 + 8*8, // Height
+                Bitmap.Config.ARGB_8888 // Config
+        );
+
+        Canvas canvas = new Canvas(bitmap);
+        int y = 15;
+
         this.mDrawable.setBounds(5, 5, with*8 + 8*8, height*8 + 8*8);
         this.mDrawable.draw(canvas);
 
@@ -64,6 +80,6 @@ public class DibujarTablero extends View {
             y+= height+5;
 
         }
-
+     return bitmap;
     }
 }
